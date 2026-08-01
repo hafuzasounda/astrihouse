@@ -1,0 +1,16 @@
+
+A = list(range(4, 101, 4))
+B = list(range(6, 101, 6))
+C = list(range(1, 101, 1))
+print(A)
+print(B)
+print(C)
+
+print("Daftar/Panjang Himpunan/Jumlah Anggota Himpunan")
+print(len(A))
+print(len(B))
+print(len(C))
+
+D = A+B
+print(D)
+print(len(D))
