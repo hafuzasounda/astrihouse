@@ -1,6 +1,44 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 
+<!-- Swiper JS (Untuk Galeri Geser) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <style>
+        /* Modifikasi warna dan tombol Swiper agar elegan */
+        swiper-container {
+            --swiper-theme-color: #004aad; /* Warna titik/panah biru */
+            --swiper-navigation-size: 20px; /* Ukuran panah */
+            --swiper-navigation-color: #004aad;
+            --swiper-pagination-color: #004aad;
+            --swiper-pagination-bullet-inactive-color: #cbd5e1;
+            padding-bottom: 3rem; /* Memberi ruang untuk titik pagination di bawah */
+        }
+        swiper-slide {
+            height: 250px; /* Tinggi seragam untuk galeri HP */
+        }
+        @media (min-width: 768px) {
+            swiper-slide {
+                height: 320px; /* Tinggi seragam untuk galeri Laptop */
+            }
+        }
+        swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+        /* Bikin tombol panah punya background putih bulat & shadow */
+        swiper-container::part(button-prev),
+        swiper-container::part(button-next) {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -141,7 +179,7 @@
                 <!-- Arch Image Container (Dibuat max-w-xl agar tidak memotong foto landscape terlalu banyak) -->
                 <div
                     class="relative h-[400px] sm:h-[500px] lg:h-[600px] w-full max-w-xl mx-auto lg:ml-auto mt-8 lg:mt-0">
-                    <img src="1.jpg" alt="Interior Astri Guest House"
+                    <img src="(12).jpeg" alt="Interior Astri Guest House"
                         class="arch-img w-full h-full object-cover shadow-2xl">
                     <!-- Floating Badge -->
                     <div
@@ -246,32 +284,159 @@
     <!-- Katalog Galeri Section -->
     <section id="galeri" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12 text-center md:text-left">
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">Galeri Astri</h2>
-                <p class="text-gray-600">Intip suasana nyaman di dalam guest house kami.</p>
+            <div class="mb-14 text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Galeri Astri</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Jelajahi setiap sudut kenyamanan fasilitas guest house kami yang dirancang seperti rumah sendiri.</p>
             </div>
 
-            <!-- Grid Foto: Gaya Bento Box untuk menyesuaikan Portrait & Landscape -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6">
-                <!-- Foto 1: Portrait (Mendapat 1 kolom) -->
-                <div class="overflow-hidden rounded-2xl group relative h-64 md:h-80 md:col-span-1">
-                    <img src="3.jpg" alt="Suasana Kamar"
-                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition duration-300"></div>
+            <!-- KATEGORI 1: Eksterior & Ruang Bersama -->
+            <div class="mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Tampak Rumah & Ruang Bersama</h3>
                 </div>
-                <!-- Foto 2: Landscape (Dilebarkan mendapat 2 kolom) -->
-                <div class="overflow-hidden rounded-2xl group relative h-64 md:h-80 md:col-span-2">
-                    <img src="30.jpg" alt="Kompor Bersama"
-                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition duration-300"></div>
-                </div>
-                <!-- Foto 3: Portrait (Mendapat 1 kolom) -->
-                <div class="overflow-hidden rounded-2xl group relative h-64 md:h-80 md:col-span-1">
-                    <img src="38.jpg" alt="Kamar Mandi"
-                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition duration-300"></div>
-                </div>
+                <!-- Swiper Element -->
+                <swiper-container navigation="true" pagination="true" pagination-clickable="true" 
+                    breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
+                    
+                    <!-- Tambah/Kurangi swiper-slide di bawah ini sesuai jumlah fotomu -->
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(12).jpeg" alt="Tampak Depan Astri 1">
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Tampak Depan (Astri 1)</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(13).jpeg" alt="Tampak Depan Astri 2">
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Tampak Depan (Astri 2)</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(4).jpeg" alt="Ruang Tengah"> 
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Ruang Tengah</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                </swiper-container>
             </div>
+
+            <!-- KATEGORI 2: Kamar Tidur -->
+            <div class="mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Fasilitas Kamar Tidur</h3>
+                </div>
+                <swiper-container navigation="true" pagination="true" pagination-clickable="true" 
+                    breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
+                    
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(6).jpeg" alt="Kasur Kamar Tidur">
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Kasur Nyaman</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(6).jpg" alt="Fasilitas Lemari dan Meja"> <!-- Ganti foto dalam kamar lain -->
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Lemari & Meja Pelengkap</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(9).jpeg" alt="Layout Kamar"> <!-- Ganti foto kamar lain -->
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Layout Kamar Tidur yang Rapi</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <!-- Kamu bisa nambah slide ke-4, ke-5, dst dengan copy-paste blok <swiper-slide> -->
+                </swiper-container>
+            </div>
+
+            <!-- KATEGORI 3: Kamar Mandi -->
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Fasilitas Kamar Mandi</h3>
+                </div>
+                <swiper-container navigation="true" pagination="true" pagination-clickable="true" 
+                    breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
+                    
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(5).jpg" alt="Kamar Mandi Luar">
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Kamar Mandi Luar yang Bersih</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(5).jpeg" alt="Fasilitas Handuk dan Sabun"> <!-- Ganti foto kloset/shower -->
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Fasilitas Handuk dan Sabun</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                </swiper-container>
+            </div>
+
+            <!-- KATEGORI 4: Fasilitas Lainnya -->
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Fasilitas Lainnya</h3>
+                </div>
+                <swiper-container navigation="true" pagination="true" pagination-clickable="true" 
+                    breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
+                    
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(10).jpeg" alt="Dispenser Minum">
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Dispenser Air Minum (Bisa Air Panas)</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(11).jpeg" alt="Wastafel Cuci Piring"> <!-- Ganti foto kloset/shower -->
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Wastafel Cuci Piring</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(8).jpeg" alt="Wastafel Cuci Tangan"> <!-- Ganti foto kloset/shower -->
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Wastafel Cuci Tangan</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="relative w-full h-full group">
+                            <img src="(7).jpeg" alt="Jemuran"> <!-- Ganti foto kloset/shower -->
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm">Jemuran untuk Pakaian dan Handuk</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+
+                </swiper-container>
+            </div>
+
         </div>
     </section>
 
@@ -366,7 +531,7 @@
 
                     <!-- Price -->
                     <div class="flex justify-center items-baseline mb-8 whitespace-nowrap">
-                        <span class="text-4xl sm:text-5xl font-extrabold text-gray-900">Rp 500.000</span>
+                        <span class="text-4xl sm:text-5xl font-extrabold text-gray-900">Rp 550.000</span>
                         <span class="text-sm sm:text-base text-gray-500 ml-1 sm:ml-2 font-medium">/ Malam</span>
                     </div>
 
