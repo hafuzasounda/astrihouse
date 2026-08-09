@@ -16,6 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class', 
             theme: {
                 extend: {
                     colors: { primary: '#004aad' },
@@ -28,7 +29,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- GLightbox CSS (Untuk Efek Zoom Gambar) -->
+    <!-- GLightbox CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
     <!-- Swiper JS & Custom Style -->
@@ -41,89 +42,143 @@
         /* Konfigurasi Ulang Swiper */
         swiper-container {
             --swiper-theme-color: #004aad;
-            --swiper-navigation-size: 14px; /* Panah Diperkecil */
+            --swiper-navigation-size: 14px; 
             --swiper-navigation-color: #004aad;
             --swiper-pagination-color: #004aad;
             --swiper-pagination-bullet-inactive-color: #cbd5e1;
             padding-bottom: 2.5rem; 
         }
-        
         swiper-slide { height: 250px; cursor: pointer; }
         @media (min-width: 768px) { swiper-slide { height: 320px; } }
-        
         swiper-slide img {
             width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;
             transition: transform 0.4s ease;
         }
-        
-        /* Efek sedikit zoom saat dihover sebelum diklik */
         swiper-slide:hover img { transform: scale(1.05); }
 
-        /* Modifikasi Panah Swiper */
         swiper-container::part(button-prev),
         swiper-container::part(button-next) {
-            background-color: rgba(255, 255, 255, 0.7); /* Lebih transparan */
-            padding: 1rem; /* Ukuran bulatannya diperkecil */
+            background-color: rgba(255, 255, 255, 0.7); 
+            padding: 1rem; 
             border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            transition: all 0.3s ease;
-            opacity: 0; /* Sembunyikan default */
+            width: 32px; height: 32px;
+            transition: all 0.3s ease; opacity: 0; 
         }
-        
-        /* Munculkan panah HANYA saat mouse mendekat ke area galeri (di Laptop) */
         swiper-container:hover::part(button-prev),
         swiper-container:hover::part(button-next) {
-            opacity: 1;
-            background-color: rgba(255, 255, 255, 0.95);
+            opacity: 1; background-color: rgba(255, 255, 255, 0.95);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
-
-        /* Sembunyikan panah sepenuhnya di layar HP (karena pakai sentuhan jari) */
         @media (max-width: 768px) {
             swiper-container::part(button-prev),
             swiper-container::part(button-next) { display: none; }
         }
+
+        /* Dark Mode Specific Styles for Swiper */
+        .dark swiper-container {
+            --swiper-theme-color: #60a5fa; 
+            --swiper-navigation-color: #60a5fa;
+            --swiper-pagination-color: #60a5fa;
+            --swiper-pagination-bullet-inactive-color: #4b5563;
+        }
+        .dark swiper-container::part(button-prev),
+        .dark swiper-container::part(button-next) {
+            background-color: rgba(31, 41, 55, 0.7); color: #60a5fa;
+        }
+        .dark swiper-container:hover::part(button-prev),
+        .dark swiper-container:hover::part(button-next) {
+            background-color: rgba(31, 41, 55, 0.95);
+        }
+
+        /* PERBAIKAN WARNA TEKS GLIGHTBOX */
+        .goverlay { background-color: rgba(0, 0, 0, 0.95) !important; }
+        .glightbox-clean .gslide-description { background: transparent !important; }
+        .glightbox-clean .gdesc-inner {
+            background: rgba(17, 24, 39, 1) !important; 
+            padding: 1.5rem !important; 
+            border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem;
+            margin-top: -1px; 
+        }
+        .glightbox-clean .gdesc-inner p,
+        .glightbox-clean .gdesc-inner .gslide-title,
+        .glightbox-clean .gdesc-inner .gslide-desc {
+            color: #f3f4f6 !important; 
+            font-family: 'Poppins', sans-serif; margin: 0 !important; 
+        }
+        .gclose path, .gnext path, .gprev path { fill: #ffffff !important; }
     </style>
 </head>
 
-<body class="bg-white text-gray-800 antialiased selection:bg-primary selection:text-white">
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 antialiased selection:bg-primary selection:text-white transition-colors duration-300">
 
     <!-- Navbar -->
-    <nav class="bg-white/90 backdrop-blur-md fixed w-full z-50 transition-all duration-300 border-b border-gray-100 py-4">
+    <nav class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md fixed w-full z-50 transition-all duration-300 border-b border-gray-100 dark:border-gray-800 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <span class="font-bold text-2xl tracking-tight text-primary">Astri<span class="text-gray-800 font-normal"> Guest House</span></span>
+                <span class="font-bold text-2xl tracking-tight text-primary dark:text-blue-400">Astri<span class="text-gray-800 dark:text-gray-100 font-normal"> Guest House</span></span>
             </div>
 
-            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
-                <a href="#tentang" class="hover:text-primary transition">Tentang</a>
-                <a href="#fasilitas" class="hover:text-primary transition">Fasilitas</a>
-                <a href="#galeri" class="hover:text-primary transition">Galeri</a>
-                <a href="#harga" class="hover:text-primary transition">Harga</a>
-                <a href="#lokasi" class="hover:text-primary transition">Lokasi</a>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600 dark:text-gray-300">
+                <a href="#tentang" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_about">Tentang</a>
+                <a href="#fasilitas" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_facility">Fasilitas</a>
+                <a href="#galeri" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_gallery">Galeri</a>
+                <a href="#harga" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_price">Harga</a>
+                <a href="#lokasi" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_location">Lokasi</a>
             </div>
 
-            <a href="#kontak" class="hidden md:block bg-primary text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-blue-800 transition shadow-lg shadow-blue-900/20">
-                Hubungi Kami
-            </a>
+            <div class="flex items-center">
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 focus:outline-none ml-auto md:ml-4 group relative flex items-center justify-center w-11 h-11" aria-label="Toggle Dark Mode">
+                    <!-- Ikon Matahari -->
+                    <svg id="theme-toggle-light-icon" class="hidden w-6 h-6 text-yellow-500 hover:text-yellow-400 transition-colors drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <!-- Ikon Bulan -->
+                    <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6 text-gray-700 hover:text-primary transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <span class="absolute top-12 right-0 w-max bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden md:block z-50" data-i18n="theme_tooltip">
+                        Ganti Tema
+                    </span>
+                </button>
 
-            <!-- Mobile Menu Button -->
-            <button id="mobile-btn" class="md:hidden text-gray-600 p-2 focus:outline-none" onclick="toggleMenu()">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
+                <!-- Language Toggle Button -->
+                <button id="lang-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 focus:outline-none md:ml-2 mr-2 group relative flex items-center justify-center w-11 h-11 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400" aria-label="Toggle Language">
+                    <span id="lang-text" class="font-bold text-sm tracking-wider">EN</span>
+                    <span class="absolute top-12 right-0 w-max bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden md:block z-50" data-i18n="lang_tooltip">
+                        Ganti Bahasa
+                    </span>
+                </button>
+
+                <a href="#kontak" class="hidden md:block bg-primary text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-blue-800 transition shadow-lg shadow-blue-900/20" data-i18n="nav_contact">
+                    Hubungi Kami
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-btn" class="md:hidden text-gray-600 dark:text-gray-300 p-2 focus:outline-none" onclick="toggleMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-4 space-y-2 shadow-lg absolute w-full">
-            <a href="#tentang" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md" onclick="toggleMenu()">Tentang</a>
-            <a href="#fasilitas" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md" onclick="toggleMenu()">Fasilitas</a>
-            <a href="#galeri" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md" onclick="toggleMenu()">Galeri</a>
-            <a href="#harga" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md" onclick="toggleMenu()">Harga</a>
-            <a href="#lokasi" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md" onclick="toggleMenu()">Lokasi</a>
-            <a href="#kontak" class="block mt-4 text-center bg-primary text-white px-6 py-3 rounded-full text-base font-semibold" onclick="toggleMenu()">Hubungi Kami</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 px-4 pt-2 pb-4 space-y-2 shadow-lg absolute w-full">
+            <a href="#tentang" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_about">Tentang</a>
+            <a href="#fasilitas" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_facility">Fasilitas</a>
+            <a href="#galeri" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_gallery">Galeri</a>
+            <a href="#harga" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_price">Harga</a>
+            <a href="#lokasi" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_location">Lokasi</a>
+            <a href="#kontak" class="block mt-4 text-center bg-primary text-white px-6 py-3 rounded-full text-base font-semibold" onclick="toggleMenu()" data-i18n="nav_contact">Hubungi Kami</a>
         </div>
     </nav>
 
@@ -132,43 +187,37 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="z-10">
-                    <div class="inline-block bg-blue-50 text-primary text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wide">
+                    <div class="inline-block bg-blue-50 dark:bg-blue-900/30 text-primary dark:text-blue-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wide" data-i18n="hero_badge">
                         GUEST HOUSE HOMEY DI SEMARANG
                     </div>
-                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-gray-900">
-                        Kenyamanan<br>
-                        <span class="text-primary">Serasa di Rumah.</span>
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-gray-900 dark:text-white transition-colors duration-300">
+                        <span data-i18n="hero_title_1">Kenyamanan</span><br>
+                        <span class="text-primary dark:text-blue-400" data-i18n="hero_title_2">Serasa di Rumah.</span>
                     </h1>
-                    <p class="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed max-w-lg">
-                        Astri Guest House menghadirkan hunian yang nyaman, tenang, dan <em>homey</em> serasa di rumah
-                        sendiri. Kami menawarkan <strong>2 unit rumah</strong> dengan total <strong>6 kamar
-                            tidur dan 4 kamar mandi luar</strong> berfasilitas lengkap. Sangat cocok sebagai penginapan
-                        rombongan keluarga
-                        untuk momen khusus seperti wisuda, perlombaan, atau sekadar berlibur di Semarang. Tersedia opsi
-                        sewa per rumah untuk harian maupun <em>longstay</em> dengan harga spesial!
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-lg transition-colors duration-300" data-i18n="hero_desc">
+                        Astri Guest House menghadirkan hunian yang nyaman, tenang, dan <em>homey</em> serasa di rumah sendiri. Kami menawarkan <strong>2 unit rumah</strong> dengan total <strong>6 kamar tidur dan 4 kamar mandi luar</strong> berfasilitas lengkap. Sangat cocok sebagai penginapan rombongan keluarga untuk momen khusus seperti wisuda, perlombaan, atau sekadar berlibur di Semarang. Tersedia opsi sewa per rumah untuk harian maupun <em>longstay</em> dengan harga spesial!
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#harga" class="text-center bg-primary text-white font-semibold px-8 py-3.5 rounded-full hover:bg-blue-800 transition shadow-lg shadow-blue-900/30 w-full sm:w-auto">
+                        <a href="#harga" class="text-center bg-primary text-white font-semibold px-8 py-3.5 rounded-full hover:bg-blue-800 transition shadow-lg shadow-blue-900/30 w-full sm:w-auto" data-i18n="btn_price">
                             Cek Harga
                         </a>
-                        <a href="#galeri" class="text-center text-gray-600 font-semibold px-8 py-3.5 rounded-full border border-gray-200 hover:border-primary hover:text-primary transition w-full sm:w-auto">
+                        <a href="#galeri" class="text-center text-gray-600 dark:text-gray-300 font-semibold px-8 py-3.5 rounded-full border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-blue-400 hover:text-primary dark:hover:text-blue-400 transition w-full sm:w-auto" data-i18n="btn_gallery">
                             Lihat Galeri
                         </a>
                     </div>
                 </div>
 
                 <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] w-full max-w-xl mx-auto lg:ml-auto mt-8 lg:mt-0">
-                    <!-- Tambahkan class 'glightbox' agar gambar hero juga bisa di-zoom -->
-                    <a href="(12).jpeg" class="glightbox" data-description="Tampak Depan Astri Guest House">
+                    <a href="(12).jpeg" class="glightbox" data-i18n-attr="gal_desc_1">
                         <img src="(12).jpeg" alt="Interior Astri Guest House" class="arch-img w-full h-full object-cover shadow-2xl hover:scale-[1.02] transition-transform duration-500">
                     </a>
                     
-                    <div class="absolute bottom-10 -left-6 sm:-left-10 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 hidden md:block">
+                    <div class="absolute bottom-10 -left-6 sm:-left-10 bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 hidden md:block transition-colors duration-300">
                         <div class="flex items-center gap-3">
-                            <div class="bg-blue-50 text-primary p-3 rounded-xl font-bold text-xl">6</div>
+                            <div class="bg-blue-50 dark:bg-blue-900/30 text-primary dark:text-blue-400 p-3 rounded-xl font-bold text-xl">6</div>
                             <div>
-                                <p class="text-sm font-bold text-gray-900">Kamar Nyaman</p>
-                                <p class="text-xs text-gray-500">Dalam 2 Rumah</p>
+                                <p class="text-sm font-bold text-gray-900 dark:text-white" data-i18n="hero_float_1">Kamar Nyaman</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="hero_float_2">Dalam 2 Rumah</p>
                             </div>
                         </div>
                     </div>
@@ -178,286 +227,272 @@
     </section>
 
     <!-- Promo Section -->
-    <section id="promo" class="py-12 bg-white">
+    <section id="promo" class="py-12 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-3xl p-8 sm:p-12 text-center border border-blue-200 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/10 rounded-3xl p-8 sm:p-12 text-center border border-blue-200 dark:border-blue-800/30 relative overflow-hidden transition-colors duration-300">
                 <div class="absolute top-0 right-0 p-4 opacity-10">
-                    <svg class="w-32 h-32 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-32 h-32 text-primary dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                     </svg>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 relative z-10">Promo Spesial Menginap</h2>
-                <p class="text-primary font-semibold mb-6 relative z-10">Dapatkan penawaran terbaik untuk liburan Anda.</p>
-                <div class="inline-block bg-white text-gray-500 px-6 py-3 sm:py-2 rounded-2xl sm:rounded-full font-medium shadow-sm border border-gray-100 relative z-10">
-                    🎉 Info Promo:
-                    <span class="block sm:inline whitespace-nowrap font-bold italic text-gray-400 mt-1 sm:mt-0">Coming Soon</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2 relative z-10" data-i18n="promo_title">Promo Spesial Menginap</h2>
+                <p class="text-primary dark:text-blue-400 font-semibold mb-6 relative z-10" data-i18n="promo_desc">Dapatkan penawaran terbaik untuk liburan Anda.</p>
+                <div class="inline-block bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-6 py-3 sm:py-2 rounded-2xl sm:rounded-full font-medium shadow-sm border border-gray-100 dark:border-gray-700 relative z-10 transition-colors duration-300">
+                    🎉 <span data-i18n="promo_info">Info Promo:</span>
+                    <span class="block sm:inline whitespace-nowrap font-bold italic text-gray-400 dark:text-gray-500 mt-1 sm:mt-0" data-i18n="promo_status">Coming Soon</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Fasilitas Section -->
-    <section id="fasilitas" class="py-20 bg-gray-50">
+    <section id="fasilitas" class="py-20 bg-gray-50 dark:bg-gray-800/50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Fasilitas Guest House</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto px-4">Kami menyediakan berbagai fasilitas bersama untuk
-                    memastikan kenyamanan Anda selama menginap di Astri Guest House.</p>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="fac_title">Fasilitas Guest House</h2>
+                <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4" data-i18n="fac_sub">Kami menyediakan berbagai fasilitas bersama untuk memastikan kenyamanan Anda selama menginap di Astri Guest House.</p>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                    <svg class="w-8 h-8 text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18m-9-9h18m-12.728-6.364l12.728 12.728m-12.728 0l12.728-12.728"></path></svg>
-                    <h3 class="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Kamar Full AC</h3>
-                    <p class="text-xs text-gray-500">Setiap kamar dilengkapi AC sejuk, kasur nyaman, lemari, meja & kursi.</p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-colors duration-300">
+                    <svg class="w-8 h-8 text-primary dark:text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18m-9-9h18m-12.728-6.364l12.728 12.728m-12.728 0l12.728-12.728"></path></svg>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-1 text-sm sm:text-base" data-i18n="fac1_title">Kamar Full AC</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="fac1_desc">Setiap kamar dilengkapi AC sejuk, kasur nyaman, lemari, meja & kursi.</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                    <svg class="w-8 h-8 text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
-                    <h3 class="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Fasilitas Bersih</h3>
-                    <p class="text-xs text-gray-500">Terdapat total 4 kamar mandi luar yang terawat dan bersih untuk tamu.</p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-colors duration-300">
+                    <svg class="w-8 h-8 text-primary dark:text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-1 text-sm sm:text-base" data-i18n="fac2_title">Fasilitas Bersih</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="fac2_desc">Terdapat total 4 kamar mandi luar yang terawat dan bersih untuk tamu.</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                    <svg class="w-8 h-8 text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                    <h3 class="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Ruang Tengah Lega</h3>
-                    <p class="text-xs text-gray-500">Area berkumpul keluarga yang luas, nyaman, dan sangat <em>homey</em>.</p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-colors duration-300">
+                    <svg class="w-8 h-8 text-primary dark:text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-1 text-sm sm:text-base" data-i18n="fac3_title">Ruang Tengah Lega</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="fac3_desc">Area berkumpul keluarga yang luas, nyaman, dan sangat <em>homey</em>.</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                    <svg class="w-8 h-8 text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-                    <h3 class="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Akses & Parkir Luas</h3>
-                    <p class="text-xs text-gray-500">Tersedia garasi aman & akses jalan lebar (bisa papasan mobil/parkir pinggir jalan).</p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-colors duration-300">
+                    <svg class="w-8 h-8 text-primary dark:text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-1 text-sm sm:text-base" data-i18n="fac4_title">Akses & Parkir Luas</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="fac4_desc">Tersedia garasi aman & akses jalan lebar (bisa papasan mobil/parkir pinggir jalan).</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Katalog Galeri Section -->
-    <section id="galeri" class="py-20 bg-white">
+    <section id="galeri" class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-14 text-center">
-                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Galeri Astri</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Klik gambar untuk memperbesar. Jelajahi setiap sudut kenyamanan fasilitas guest house kami.</p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="gal_title">Galeri Astri</h2>
+                <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto" data-i18n="gal_sub">
+                    <strong>Klik gambar</strong> untuk memperbesar dan <strong>geser (swipe) ke kanan-kiri</strong> untuk melihat foto lainnya. Jelajahi setiap sudut kenyamanan fasilitas guest house kami.
+                </p>
             </div>
 
-            <!-- KATEGORI 1: Eksterior & Ruang Bersama -->
             <div class="mb-12">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Tampak Rumah & Ruang Bersama</h3>
+                    <div class="w-1.5 h-6 bg-primary dark:bg-blue-400 rounded-full"></div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="gal_cat1">Tampak Rumah & Ruang Bersama</h3>
                 </div>
-                <swiper-container navigation="true" pagination="true" pagination-clickable="true" 
-                    breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
-                    
+                <swiper-container navigation="true" pagination="true" pagination-clickable="true" breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
                     <swiper-slide>
-                        <a href="(12).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="ruang-bersama" data-description="Tampak Depan Astri 1">
+                        <a href="(12).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="ruang-bersama" data-i18n-attr="gal_desc_1">
                             <img src="(12).jpeg" alt="Tampak Depan Astri 1">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Tampak Depan (Astri 1)</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_1">Tampak Depan (Astri 1)</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                     <swiper-slide>
-                        <a href="(13).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="ruang-bersama" data-description="Tampak Depan Astri 2">
+                        <a href="(13).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="ruang-bersama" data-i18n-attr="gal_desc_2">
                             <img src="(13).jpeg" alt="Tampak Depan Astri 2">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Tampak Depan (Astri 2)</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_2">Tampak Depan (Astri 2)</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                     <swiper-slide>
-                        <a href="(4).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="ruang-bersama" data-description="Ruang Tengah">
+                        <a href="(4).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="ruang-bersama" data-i18n-attr="gal_desc_3">
                             <img src="(4).jpeg" alt="Ruang Tengah"> 
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Ruang Tengah</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_3">Ruang Tengah</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                 </swiper-container>
             </div>
 
-            <!-- KATEGORI 2: Kamar Tidur -->
             <div class="mb-12">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Fasilitas Kamar Tidur</h3>
+                    <div class="w-1.5 h-6 bg-primary dark:bg-blue-400 rounded-full"></div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="gal_cat2">Fasilitas Kamar Tidur</h3>
                 </div>
-                <swiper-container navigation="true" pagination="true" pagination-clickable="true" 
-                    breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
-                    
+                <swiper-container navigation="true" pagination="true" pagination-clickable="true" breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
                     <swiper-slide>
-                        <a href="(6).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar" data-description="Kasur yang Nyaman">
+                        <a href="(6).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar" data-i18n-attr="gal_desc_4">
                             <img src="(6).jpeg" alt="Kasur Kamar Tidur">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Kasur yang Nyaman</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_4">Kasur yang Nyaman</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                     <swiper-slide>
-                        <a href="(6).jpg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar" data-description="Fasilitas Lemari & Meja">
+                        <a href="(6).jpg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar" data-i18n-attr="gal_desc_5">
                             <img src="(6).jpg" alt="Fasilitas Lemari dan Meja">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Fasilitas Lemari & Meja</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_5">Lemari & Meja</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                     <swiper-slide>
-                        <a href="(9).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar" data-description="Layout Kamar Tidur yang Rapi">
+                        <a href="(9).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar" data-i18n-attr="gal_desc_6">
                             <img src="(9).jpeg" alt="Layout Kamar">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Layout Kamar Tidur yang Rapi</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_6">Layout Rapi</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                 </swiper-container>
             </div>
 
-            <!-- KATEGORI 3: Kamar Mandi -->
             <div class="mb-12">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Fasilitas Kamar Mandi</h3>
+                    <div class="w-1.5 h-6 bg-primary dark:bg-blue-400 rounded-full"></div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="gal_cat3">Fasilitas Kamar Mandi</h3>
                 </div>
-                <swiper-container navigation="true" pagination="true" pagination-clickable="true" 
-                    breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
-                    
+                <swiper-container navigation="true" pagination="true" pagination-clickable="true" breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
                     <swiper-slide>
-                        <a href="(5).jpg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar-mandi" data-description="Kamar Mandi Luar yang Bersih">
+                        <a href="(5).jpg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar-mandi" data-i18n-attr="gal_desc_7">
                             <img src="(5).jpg" alt="Kamar Mandi Luar">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Kamar Mandi Luar yang Bersih</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_7">Kamar Mandi Luar Bersih</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                     <swiper-slide>
-                        <a href="(5).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar-mandi" data-description="Fasilitas Handuk dan Sabun">
+                        <a href="(5).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="kamar-mandi" data-i18n-attr="gal_desc_8">
                             <img src="(5).jpeg" alt="Fasilitas Handuk dan Sabun">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Fasilitas Handuk & Sabun</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_8">Fasilitas Handuk & Sabun</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                 </swiper-container>
             </div>
 
-            <!-- KATEGORI 4: Fasilitas Lainnya -->
             <div>
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Fasilitas Lainnya</h3>
+                    <div class="w-1.5 h-6 bg-primary dark:bg-blue-400 rounded-full"></div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="gal_cat4">Fasilitas Lainnya</h3>
                 </div>
-                <swiper-container navigation="true" pagination="true" pagination-clickable="true" 
-                    breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
-                    
+                <swiper-container navigation="true" pagination="true" pagination-clickable="true" breakpoints='{"320": {"slidesPerView": 1, "spaceBetween": 16}, "768": {"slidesPerView": 2, "spaceBetween": 20}, "1024": {"slidesPerView": 3, "spaceBetween": 24}}'>
                     <swiper-slide>
-                        <a href="(10).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="lainnya" data-description="Dispenser Air Minum (Bisa Air Panas)">
+                        <a href="(10).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="lainnya" data-i18n-attr="gal_desc_9">
                             <img src="(10).jpeg" alt="Dispenser Minum">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Dispenser Air Minum (Bisa Air Panas)</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_9">Dispenser Air Minum</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                     <swiper-slide>
-                        <a href="(11).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="lainnya" data-description="Wastafel Cuci Piring">
+                        <a href="(11).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="lainnya" data-i18n-attr="gal_desc_10">
                             <img src="(11).jpeg" alt="Wastafel Cuci Piring">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Wastafel Cuci Piring</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_10">Wastafel Cuci Piring</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                     <swiper-slide>
-                        <a href="(8).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="lainnya" data-description="Wastafel Cuci Tangan">
+                        <a href="(8).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="lainnya" data-i18n-attr="gal_desc_11">
                             <img src="(8).jpeg" alt="Wastafel Cuci Tangan">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Wastafel Cuci Tangan</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_11">Wastafel Cuci Tangan</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                     <swiper-slide>
-                        <a href="(7).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="lainnya" data-description="Jemuran untuk Pakaian dan Handuk">
+                        <a href="(7).jpeg" class="glightbox overflow-hidden block w-full h-full rounded-2xl group" data-gallery="lainnya" data-i18n-attr="gal_desc_12">
                             <img src="(7).jpeg" alt="Jemuran">
-                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> Jemuran Pakaian dan Handuk</p>
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-white font-medium text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg> <span data-i18n="gal_desc_12">Jemuran</span></p>
                             </div>
                         </a>
                     </swiper-slide>
                 </swiper-container>
             </div>
-
         </div>
     </section>
 
     <!-- Harga Section -->
-    <section id="harga" class="py-20 bg-gray-50 border-t border-gray-100">
+    <section id="harga" class="py-20 bg-gray-50 dark:bg-gray-800/30 border-t border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Harga Menginap</h2>
-            <p class="text-base sm:text-lg text-gray-600 mb-12">Pesan guest house Anda sekarang dengan tarif yang transparan dan terjangkau.</p>
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="price_title">Harga Menginap</h2>
+            <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-12" data-i18n="price_sub">Pesan rumah Anda sekarang dengan tarif yang transparan dan terjangkau.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Card Astri 1 -->
-                <div class="bg-white p-8 sm:p-10 rounded-3xl shadow-lg border border-gray-100 flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                <div class="bg-white dark:bg-gray-800 p-8 sm:p-10 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col h-full hover:shadow-xl transition-all duration-300">
                     <div class="mb-6">
-                        <h3 class="text-2xl sm:text-3xl font-extrabold text-primary uppercase tracking-wide">Astri 1</h3>
-                        <span class="block text-sm sm:text-base text-gray-500 font-medium mt-1">(Sewa per Rumah)</span>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-primary dark:text-blue-400 uppercase tracking-wide">Astri 1</h3>
+                        <span class="block text-sm sm:text-base text-gray-500 dark:text-gray-400 font-medium mt-1" data-i18n="price_per_house">(Sewa per Rumah)</span>
                     </div>
                     <div class="flex justify-center items-baseline mb-8 whitespace-nowrap">
-                        <span class="text-4xl sm:text-5xl font-extrabold text-gray-900">Rp 650.000</span>
-                        <span class="text-sm sm:text-base text-gray-500 ml-1 sm:ml-2 font-medium">/ Malam</span>
+                        <span class="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white">Rp 650.000</span>
+                        <span class="text-sm sm:text-base text-gray-500 dark:text-gray-400 ml-1 sm:ml-2 font-medium" data-i18n="price_night">/ Malam</span>
                     </div>
-                    <ul class="text-gray-600 space-y-4 mb-8 text-left flex-grow text-sm sm:text-base">
+                    <ul class="text-gray-600 dark:text-gray-300 space-y-4 mb-8 text-left flex-grow text-sm sm:text-base">
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span><strong>Akses 1 Rumah Penuh</strong> (Terdiri dari 3 Kamar Tidur + 2 Kamar Mandi Luar)</span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f1"><strong>Akses 1 Rumah Penuh</strong> (Terdiri dari 3 Kamar Tidur + 2 Kamar Mandi Luar)</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>Kapasitas ideal & nyaman untuk <strong>4 hingga 6 orang</strong></span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f2">Kapasitas ideal & nyaman untuk <strong>4 hingga 6 orang</strong></span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>Kamar Full AC + Fasilitas Lengkap (Kasur, Lemari, Meja, Kursi)</span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f3">Kamar Full AC + Fasilitas Lengkap (Kasur, Lemari, Meja, Kursi)</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>Terdapat Ruang Tengah Keluarga yang lega untuk bersantai</span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f4">Terdapat Ruang Tengah Keluarga yang lega untuk bersantai</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>Tersedia 1 Garasi Pribadi & Akses Jalan Lebar (Bisa parkir depan rumah)</span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f5">Tersedia 1 Garasi Pribadi & Akses Jalan Lebar (Bisa parkir depan rumah)</span>
                         </li>
                     </ul>
-                    <a href="https://wa.me/6281291088744?text=Halo%20Admin%20Astri%20Guest%20House,%20saya%20ingin%20tanya%20ketersediaan%20untuk%20rumah%20Astri%201." target="_blank" rel="noopener noreferrer" class="block w-full bg-primary text-white py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-blue-800 transition shadow-md mt-auto">
+                    <a href="https://wa.me/6281291088744?text=Halo%20Admin%20Astri%20Guest%20House,%20saya%20ingin%20tanya%20ketersediaan%20untuk%20rumah%20Astri%201." target="_blank" rel="noopener noreferrer" class="block w-full bg-primary text-white py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-blue-800 transition shadow-md mt-auto" data-i18n="price_btn_1">
                         Pesan Astri 1
                     </a>
                 </div>
 
-                <!-- Card Astri 2 -->
-                <div class="bg-white p-8 sm:p-10 rounded-3xl shadow-lg border border-gray-100 flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                <div class="bg-white dark:bg-gray-800 p-8 sm:p-10 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col h-full hover:shadow-xl transition-all duration-300">
                     <div class="mb-6">
-                        <h3 class="text-2xl sm:text-3xl font-extrabold text-primary uppercase tracking-wide">Astri 2</h3>
-                        <span class="block text-sm sm:text-base text-gray-500 font-medium mt-1">(Sewa per Rumah)</span>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-primary dark:text-blue-400 uppercase tracking-wide">Astri 2</h3>
+                        <span class="block text-sm sm:text-base text-gray-500 dark:text-gray-400 font-medium mt-1" data-i18n="price_per_house">(Sewa per Rumah)</span>
                     </div>
                     <div class="flex justify-center items-baseline mb-8 whitespace-nowrap">
-                        <span class="text-4xl sm:text-5xl font-extrabold text-gray-900">Rp 550.000</span>
-                        <span class="text-sm sm:text-base text-gray-500 ml-1 sm:ml-2 font-medium">/ Malam</span>
+                        <span class="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white">Rp 550.000</span>
+                        <span class="text-sm sm:text-base text-gray-500 dark:text-gray-400 ml-1 sm:ml-2 font-medium" data-i18n="price_night">/ Malam</span>
                     </div>
-                    <ul class="text-gray-600 space-y-4 mb-8 text-left flex-grow text-sm sm:text-base">
+                    <ul class="text-gray-600 dark:text-gray-300 space-y-4 mb-8 text-left flex-grow text-sm sm:text-base">
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span><strong>Akses 1 Rumah Penuh</strong> (Terdiri dari 3 Kamar Tidur + 2 Kamar Mandi Luar)</span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f1"><strong>Akses 1 Rumah Penuh</strong> (Terdiri dari 3 Kamar Tidur + 2 Kamar Mandi Luar)</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>Kapasitas ideal & nyaman untuk <strong>4 hingga 6 orang</strong></span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f2">Kapasitas ideal & nyaman untuk <strong>4 hingga 6 orang</strong></span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>Kamar Full AC + Fasilitas Lengkap (Kasur, Lemari, Meja, Kursi)</span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f3">Kamar Full AC + Fasilitas Lengkap (Kasur, Lemari, Meja, Kursi)</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>Tersedia 1 Garasi Pribadi & Akses Jalan Lebar (Bisa parkir depan rumah)</span>
+                            <svg class="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span data-i18n="price_f5">Tersedia 1 Garasi Pribadi & Akses Jalan Lebar (Bisa parkir depan rumah)</span>
                         </li>
                     </ul>
-                    <a href="https://wa.me/6281291088744?text=Halo%20Admin%20Astri%20Guest%20House,%20saya%20ingin%20tanya%20ketersediaan%20untuk%20rumah%20Astri%202." target="_blank" rel="noopener noreferrer" class="block w-full bg-primary text-white py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-blue-800 transition shadow-md mt-auto">
+                    <a href="https://wa.me/6281291088744?text=Halo%20Admin%20Astri%20Guest%20House,%20saya%20ingin%20tanya%20ketersediaan%20untuk%20rumah%20Astri%202." target="_blank" rel="noopener noreferrer" class="block w-full bg-primary text-white py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-blue-800 transition shadow-md mt-auto" data-i18n="price_btn_2">
                         Pesan Astri 2
                     </a>
                 </div>
@@ -465,58 +500,54 @@
         </div>
     </section>
 
-    <!-- Lokasi & GMaps Section -->
-    <section id="lokasi" class="py-20 bg-white">
+    <!-- Lokasi Section -->
+    <section id="lokasi" class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Temukan Kami</h2>
-                    <p class="text-gray-600 mb-8 leading-relaxed">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="loc_title">Temukan Kami</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed" data-i18n="loc_desc">
                         Astri Guest House terletak di area yang strategis dan mudah dijangkau dari UNNES. Lingkungan yang tenang memastikan istirahat Anda tidak terganggu, namun tetap dekat dengan fasilitas publik.
                     </p>
                     <div class="flex items-start gap-4 mb-8">
-                        <div class="bg-blue-50 p-3 rounded-full text-primary mt-1">
+                        <div class="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-full text-primary dark:text-blue-400 mt-1">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         </div>
                         <div>
-                            <h4 class="font-bold text-gray-900">Alamat Lengkap</h4>
-                            <p class="text-gray-600 text-sm mt-1">Jalan Permata Safira Raya, Perumahan Graha Taman Nirwana, Sekaran, Gunungpati, Kota Semarang, Jawa Tengah 50229.</p>
+                            <h4 class="font-bold text-gray-900 dark:text-white" data-i18n="loc_addr_title">Alamat Lengkap</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Jalan Permata Safira Raya, Perumahan Graha Taman Nirwana, Sekaran, Gunungpati, Kota Semarang, Jawa Tengah 50229.</p>
                         </div>
                     </div>
-                    <a href="https://maps.app.goo.gl/wWjA4eHxfV5PTVtM9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition shadow-lg w-full sm:w-auto justify-center">
+                    <a href="https://maps.app.goo.gl/wWjA4eHxfV5PTVtM9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-800 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 dark:hover:bg-gray-700 transition shadow-lg w-full sm:w-auto justify-center border border-transparent dark:border-gray-600" data-i18n="loc_btn">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                         Buka di Google Maps
                     </a>
                 </div>
-
-                <!-- Peta Embed -->
-                <div class="h-[300px] sm:h-[400px] w-full rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+                <div class="h-[300px] sm:h-[400px] w-full rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.7697246516154!2d110.3866485740375!3d-7.036328468937793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708b005d1a6761%3A0x91a52240a5568376!2sAstri%20Guest%20House!5e0!3m2!1sid!2sid!4v1778329031748!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer & Contact -->
-    <footer id="kontak" class="bg-gray-900 text-white pt-20 pb-10">
+    <!-- Footer -->
+    <footer id="kontak" class="bg-gray-900 dark:bg-gray-950 text-white pt-20 pb-10 border-t border-transparent dark:border-gray-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-16">
                 <div class="sm:col-span-2 md:col-span-1">
-                    <h2 class="text-2xl font-bold mb-4 text-white">Astri <span class="text-primary font-normal">Guest House</span></h2>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Menghadirkan kehangatan dan kenyamanan tinggal bersama layaknya rumah sendiri</p>
+                    <h2 class="text-2xl font-bold mb-4 text-white">Astri <span class="text-primary dark:text-blue-400 font-normal">Guest House</span></h2>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="foot_desc">Menghadirkan kehangatan dan kenyamanan tinggal bersama layaknya rumah sendiri</p>
                 </div>
-
                 <div>
-                    <h3 class="font-semibold text-lg mb-4 text-gray-200">Layanan Tamu</h3>
+                    <h3 class="font-semibold text-lg mb-4 text-gray-200" data-i18n="foot_srv_title">Layanan Tamu</h3>
                     <ul class="text-gray-400 text-sm space-y-3">
-                        <li><a href="https://forms.gle/N1PzGTCmpnWJwQbRA" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition flex items-center gap-2"><span class="text-primary">▸</span> Layanan Pengaduan</a></li>
-                        <li><a href="https://forms.gle/xL9Xazo81Ux343e98" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition flex items-center gap-2"><span class="text-primary">▸</span> Survey Kepuasan Tamu</a></li>
-                        <li><a href="https://wa.me/6281291088744?text=Halo%2C%20saya%20ingin%20meminta%20penerbitan%20invoice%20resmi%20untuk%20pesanan%20saya.%20Terima%20kasih." target="_blank" rel="noopener noreferrer" class="hover:text-primary transition flex items-center gap-2"><span class="text-primary">▸</span> Penerbitan Invoice Resmi</a></li>
+                        <li><a href="https://forms.gle/N1PzGTCmpnWJwQbRA" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-blue-400 transition flex items-center gap-2"><span class="text-primary dark:text-blue-400">▸</span> <span data-i18n="foot_s1">Layanan Pengaduan</span></a></li>
+                        <li><a href="https://forms.gle/xL9Xazo81Ux343e98" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-blue-400 transition flex items-center gap-2"><span class="text-primary dark:text-blue-400">▸</span> <span data-i18n="foot_s2">Survey Kepuasan Tamu</span></a></li>
+                        <li><a href="https://wa.me/6281291088744?text=Halo%2C%20saya%20ingin%20meminta%20penerbitan%20invoice%20resmi%20untuk%20pesanan%20saya.%20Terima%20kasih." target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-blue-400 transition flex items-center gap-2"><span class="text-primary dark:text-blue-400">▸</span> <span data-i18n="foot_s3">Penerbitan Invoice Resmi</span></a></li>
                     </ul>
                 </div>
-
                 <div>
-                    <h3 class="font-semibold text-lg mb-4 text-gray-200">Sosial & Kontak</h3>
+                    <h3 class="font-semibold text-lg mb-4 text-gray-200" data-i18n="foot_soc_title">Sosial & Kontak</h3>
                     <ul class="text-gray-400 text-sm space-y-3">
                         <li class="flex items-center gap-2">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
@@ -528,11 +559,10 @@
                         </li>
                     </ul>
                 </div>
-
                 <div>
-                    <h3 class="font-semibold text-lg mb-4 text-gray-200">Reservasi</h3>
-                    <p class="text-gray-400 text-sm mb-4">Hubungi admin kami untuk pertanyaan dan pemesanan rumah.</p>
-                    <a href="https://wa.me/6281291088744" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition w-full">
+                    <h3 class="font-semibold text-lg mb-4 text-gray-200" data-i18n="foot_res_title">Reservasi</h3>
+                    <p class="text-gray-400 text-sm mb-4" data-i18n="foot_res_desc">Hubungi admin kami untuk pertanyaan dan pemesanan rumah.</p>
+                    <a href="https://wa.me/6281291088744" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition w-full" data-i18n="foot_res_btn">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824v.001z" /></svg>
                         Chat WhatsApp
                     </a>
@@ -540,15 +570,20 @@
             </div>
             <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
                 <div>&copy; <span id="year"></span> Astri Guest House. All rights reserved.</div>
-                <div class="text-xs">Dikelola dengan bangga oleh keluarga</div>
+                <div class="text-xs flex items-center gap-3">
+                    <span data-i18n="foot_manage">Dikelola dengan bangga oleh keluarga</span>
+                    <span class="bg-gray-800 text-gray-400 px-2 py-0.5 rounded border border-gray-700 font-mono tracking-widest" title="Versi Website">
+                        v1.4.0
+                    </span>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- GLightbox Script (Untuk Eksekusi Zoom/Modal Gambar) -->
+    <!-- GLightbox Script -->
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script>
-        // Set tahun otomatis di footer
+        // Set tahun otomatis
         document.getElementById('year').textContent = new Date().getFullYear();
 
         function toggleMenu() {
@@ -556,12 +591,246 @@
             menu.classList.toggle('hidden');
         }
 
-        // Inisialisasi Lightbox
-        const lightbox = GLightbox({
-            selector: '.glightbox', // Akan mencari semua elemen dengan class 'glightbox'
-            touchNavigation: true,
-            loop: true,
-            zoomable: true
+        const lightbox = GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true, zoomable: true });
+
+        // ==========================================
+        // SCRIPT UNTUK DARK MODE
+        // ==========================================
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
+        function checkTheme() {
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                themeToggleLightIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        checkTheme(); 
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+        // ==========================================
+        // SCRIPT UNTUK MULTI-BAHASA (ID / EN)
+        // ==========================================
+        // Kamus Bahasa / Translation Dictionary
+        const translations = {
+            "id": {
+                "theme_tooltip": "Ganti Tema",
+                "lang_tooltip": "Ganti Bahasa",
+                "nav_about": "Tentang",
+                "nav_facility": "Fasilitas",
+                "nav_gallery": "Galeri",
+                "nav_price": "Harga",
+                "nav_location": "Lokasi",
+                "nav_contact": "Hubungi Kami",
+                "hero_badge": "GUEST HOUSE HOMEY DI SEMARANG",
+                "hero_title_1": "Kenyamanan<br>",
+                "hero_title_2": "Serasa di Rumah.",
+                "hero_desc": "Astri Guest House menghadirkan hunian yang nyaman, tenang, dan <em>homey</em> serasa di rumah sendiri. Kami menawarkan <strong>2 unit rumah</strong> dengan total <strong>6 kamar tidur dan 4 kamar mandi luar</strong> berfasilitas lengkap. Sangat cocok sebagai penginapan rombongan keluarga untuk momen khusus seperti wisuda, perlombaan, atau sekadar berlibur di Semarang. Tersedia opsi sewa per rumah untuk harian maupun <em>longstay</em> dengan harga spesial!",
+                "btn_price": "Cek Harga",
+                "btn_gallery": "Lihat Galeri",
+                "hero_float_1": "Kamar Nyaman",
+                "hero_float_2": "Dalam 2 Rumah",
+                "promo_title": "Promo Spesial Menginap",
+                "promo_desc": "Dapatkan penawaran terbaik untuk liburan Anda.",
+                "promo_info": "Info Promo:",
+                "promo_status": "Coming Soon",
+                "fac_title": "Fasilitas Guest House",
+                "fac_sub": "Kami menyediakan berbagai fasilitas bersama untuk memastikan kenyamanan Anda selama menginap di Astri Guest House.",
+                "fac1_title": "Kamar Full AC",
+                "fac1_desc": "Setiap kamar dilengkapi AC sejuk, kasur nyaman, lemari, meja & kursi.",
+                "fac2_title": "Fasilitas Bersih",
+                "fac2_desc": "Terdapat total 4 kamar mandi luar yang terawat dan bersih untuk tamu.",
+                "fac3_title": "Ruang Tengah Lega",
+                "fac3_desc": "Area berkumpul keluarga yang luas, nyaman, dan sangat <em>homey</em>.",
+                "fac4_title": "Akses & Parkir Luas",
+                "fac4_desc": "Tersedia garasi aman & akses jalan lebar (bisa papasan mobil/parkir pinggir jalan).",
+                "gal_title": "Galeri Astri",
+                "gal_sub": "<strong>Klik gambar</strong> untuk memperbesar dan <strong>geser (swipe) ke kanan-kiri</strong> untuk melihat foto lainnya. Jelajahi setiap sudut kenyamanan fasilitas guest house kami.",
+                "gal_cat1": "Tampak Rumah & Ruang Bersama",
+                "gal_cat2": "Fasilitas Kamar Tidur",
+                "gal_cat3": "Fasilitas Kamar Mandi",
+                "gal_cat4": "Fasilitas Lainnya",
+                "gal_desc_1": "Tampak Depan (Astri 1)",
+                "gal_desc_2": "Tampak Depan (Astri 2)",
+                "gal_desc_3": "Ruang Tengah",
+                "gal_desc_4": "Kasur yang Nyaman",
+                "gal_desc_5": "Lemari & Meja",
+                "gal_desc_6": "Layout Kamar yang Rapi",
+                "gal_desc_7": "Kamar Mandi Luar Bersih",
+                "gal_desc_8": "Fasilitas Handuk & Sabun",
+                "gal_desc_9": "Dispenser Air Minum (Bisa Air Panas)",
+                "gal_desc_10": "Wastafel Cuci Piring",
+                "gal_desc_11": "Wastafel Cuci Tangan",
+                "gal_desc_12": "Jemuran",
+                "price_title": "Harga Menginap",
+                "price_sub": "Pesan rumah Anda sekarang dengan tarif yang transparan dan terjangkau.",
+                "price_per_house": "(Sewa per Rumah)",
+                "price_night": "/ Malam",
+                "price_f1": "<strong>Akses 1 Rumah Penuh</strong> (Terdiri dari 3 Kamar Tidur + 2 Kamar Mandi Luar)",
+                "price_f2": "Kapasitas ideal & nyaman untuk <strong>4 hingga 6 orang</strong>",
+                "price_f3": "Kamar Full AC + Fasilitas Lengkap (Kasur, Lemari, Meja, Kursi)",
+                "price_f4": "Terdapat Ruang Tengah Keluarga yang lega untuk bersantai",
+                "price_f5": "Tersedia 1 Garasi Pribadi & Akses Jalan Lebar (Bisa parkir depan rumah)",
+                "price_btn_1": "Pesan Astri 1",
+                "price_btn_2": "Pesan Astri 2",
+                "loc_title": "Temukan Kami",
+                "loc_desc": "Astri Guest House terletak di area yang strategis dan mudah dijangkau dari UNNES. Lingkungan yang tenang memastikan istirahat Anda tidak terganggu, namun tetap dekat dengan fasilitas publik.",
+                "loc_addr_title": "Alamat Lengkap",
+                "loc_btn": "Buka di Google Maps",
+                "foot_desc": "Menghadirkan kehangatan dan kenyamanan tinggal bersama layaknya rumah sendiri",
+                "foot_srv_title": "Layanan Tamu",
+                "foot_s1": "Layanan Pengaduan",
+                "foot_s2": "Survey Kepuasan Tamu",
+                "foot_s3": "Penerbitan Invoice Resmi",
+                "foot_soc_title": "Sosial & Kontak",
+                "foot_res_title": "Reservasi",
+                "foot_res_desc": "Hubungi admin kami untuk pertanyaan dan pemesanan rumah.",
+                "foot_res_btn": "Chat WhatsApp",
+                "foot_manage": "Dikelola dengan bangga oleh keluarga"
+            },
+            "en": {
+                "theme_tooltip": "Change Theme",
+                "lang_tooltip": "Change Language",
+                "nav_about": "About",
+                "nav_facility": "Facilities",
+                "nav_gallery": "Gallery",
+                "nav_price": "Pricing",
+                "nav_location": "Location",
+                "nav_contact": "Contact Us",
+                "hero_badge": "HOMEY GUEST HOUSE IN SEMARANG",
+                "hero_title_1": "Comfort<br>",
+                "hero_title_2": "Just Like Home.",
+                "hero_desc": "Astri Guest House offers a comfortable, quiet, and homey stay just like your own home. We provide <strong>2 houses</strong> with a total of <strong>6 bedrooms and 4 external bathrooms</strong> with complete facilities. Perfect as a group accommodation for special moments like graduations, competitions, or just a vacation in Semarang. Available for daily rent or <em>longstay</em> at special prices!",
+                "btn_price": "Check Prices",
+                "btn_gallery": "View Gallery",
+                "hero_float_1": "Cozy Rooms",
+                "hero_float_2": "In 2 Houses",
+                "promo_title": "Special Stay Promo",
+                "promo_desc": "Get the best deals for your vacation.",
+                "promo_info": "Promo Info:",
+                "promo_status": "Coming Soon",
+                "fac_title": "Guest House Facilities",
+                "fac_sub": "We provide various shared facilities to ensure your comfort during your stay at Astri Guest House.",
+                "fac1_title": "Fully AC Rooms",
+                "fac1_desc": "Every room is equipped with cool AC, comfortable bed, wardrobe, desk & chair.",
+                "fac2_title": "Clean Facilities",
+                "fac2_desc": "There are a total of 4 well-maintained and clean external bathrooms for guests.",
+                "fac3_title": "Spacious Living Room",
+                "fac3_desc": "Spacious, comfortable, and very <em>homey</em> family gathering area.",
+                "fac4_title": "Wide Access & Parking",
+                "fac4_desc": "Secure garage & wide road access available (can cross cars / park on the roadside).",
+                "gal_title": "Astri Gallery",
+                "gal_sub": "<strong>Click the image</strong> to enlarge and <strong>swipe left-right</strong> to see other photos. Explore every corner of our guest house comfort.",
+                "gal_cat1": "House Exterior & Living Room",
+                "gal_cat2": "Bedroom Facilities",
+                "gal_cat3": "Bathroom Facilities",
+                "gal_cat4": "Other Facilities",
+                "gal_desc_1": "Front View (Astri 1)",
+                "gal_desc_2": "Front View (Astri 2)",
+                "gal_desc_3": "Living Room",
+                "gal_desc_4": "Comfortable Bed",
+                "gal_desc_5": "Wardrobe & Desk",
+                "gal_desc_6": "Neat Bedroom Layout",
+                "gal_desc_7": "Clean External Bathroom",
+                "gal_desc_8": "Towel & Soap Facility",
+                "gal_desc_9": "Water Dispenser (Hot Water Available)",
+                "gal_desc_10": "Kitchen Sink",
+                "gal_desc_11": "Washbasin",
+                "gal_desc_12": "Drying Rack",
+                "price_title": "Stay Pricing",
+                "price_sub": "Book your house now with transparent and affordable rates.",
+                "price_per_house": "(Rent per House)",
+                "price_night": "/ Night",
+                "price_f1": "<strong>Full House Access</strong> (Consists of 3 Bedrooms + 2 External Bathrooms)",
+                "price_f2": "Ideal & comfortable capacity for <strong>4 to 6 people</strong>",
+                "price_f3": "Fully AC Rooms + Complete Facilities (Bed, Wardrobe, Desk, Chair)",
+                "price_f4": "Spacious Family Living Room to relax",
+                "price_f5": "1 Private Garage & Wide Road Access (Can park in front of the house)",
+                "price_btn_1": "Book Astri 1",
+                "price_btn_2": "Book Astri 2",
+                "loc_title": "Find Us",
+                "loc_desc": "Astri Guest House is located in a strategic area easily accessible from UNNES. The quiet neighborhood ensures your rest is undisturbed, yet still close to public facilities.",
+                "loc_addr_title": "Full Address",
+                "loc_btn": "Open in Google Maps",
+                "foot_desc": "Bringing the warmth and comfort of living together just like your own home",
+                "foot_srv_title": "Guest Services",
+                "foot_s1": "Complaint Service",
+                "foot_s2": "Satisfaction Survey",
+                "foot_s3": "Official Invoice Issuance",
+                "foot_soc_title": "Social & Contact",
+                "foot_res_title": "Reservation",
+                "foot_res_desc": "Contact our admin for inquiries and house bookings.",
+                "foot_res_btn": "WhatsApp Chat",
+                "foot_manage": "Proudly managed by the family"
+            }
+        };
+
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const langText = document.getElementById('lang-text');
+
+        // Fungsi untuk mengganti bahasa ke elemen HTML
+        function setLanguage(lang) {
+            // Ubah teks biasa (innerHTML) agar tag <strong> & <br> tetap berfungsi
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Ubah atribut data-description khusus untuk GLightbox
+            document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+                const key = el.getAttribute('data-i18n-attr');
+                if (translations[lang] && translations[lang][key]) {
+                    el.setAttribute('data-description', translations[lang][key]);
+                }
+            });
+
+            // Tombol selalu menampilkan opsi bahasa lawannya
+            langText.textContent = lang === 'id' ? 'EN' : 'ID';
+            
+            // Simpan preferensi bahasa di Browser
+            localStorage.setItem('language', lang);
+
+            // FIX: Refresh GLightbox agar membaca deskripsi bahasa yang baru dimuat
+            if (typeof lightbox !== 'undefined') {
+                lightbox.reload();
+            }
+        }
+
+        // Cek bahasa saat pertama web dibuka
+        let currentLang = localStorage.getItem('language') || 'id';
+        setLanguage(currentLang);
+
+        // Eksekusi saat tombol bahasa ditekan
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            setLanguage(currentLang);
         });
     </script>
 </body>
