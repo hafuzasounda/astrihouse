@@ -123,6 +123,7 @@
                 <a href="#fasilitas" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_facility">Fasilitas</a>
                 <a href="#galeri" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_gallery">Galeri</a>
                 <a href="#harga" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_price">Harga</a>
+                <a href="#ketersediaan" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_calendar">Ketersediaan</a>
                 <a href="#lokasi" class="hover:text-primary dark:hover:text-blue-400 transition" data-i18n="nav_location">Lokasi</a>
             </div>
 
@@ -177,6 +178,7 @@
             <a href="#fasilitas" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_facility">Fasilitas</a>
             <a href="#galeri" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_gallery">Galeri</a>
             <a href="#harga" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_price">Harga</a>
+            <a href="#ketersediaan" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_calendar">Ketersediaan</a>
             <a href="#lokasi" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md" onclick="toggleMenu()" data-i18n="nav_location">Lokasi</a>
             <a href="#kontak" class="block mt-4 text-center bg-primary text-white px-6 py-3 rounded-full text-base font-semibold" onclick="toggleMenu()" data-i18n="nav_contact">Hubungi Kami</a>
         </div>
@@ -508,6 +510,76 @@
         </div>
     </section>
 
+    <!-- Kalender Ketersediaan Section -->
+    <section id="ketersediaan" class="py-20 bg-blue-50/30 dark:bg-gray-800/40 transition-colors duration-300 border-y border-gray-100 dark:border-gray-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="cal_title">Kalender Ketersediaan</h2>
+            <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-10" data-i18n="cal_sub">Cek jadwal ketersediaan unit Astri Guest House untuk merencanakan waktu menginap Anda.</p>
+
+            <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 transition-all duration-300">
+                
+                <!-- Navigasi Bulan -->
+                <div class="flex justify-between items-center mb-6">
+                    <button id="prev-month" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors focus:outline-none" aria-label="Bulan Sebelumnya">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <h3 id="calendar-month-year" class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100">Bulan Tahun</h3>
+                    <button id="next-month" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors focus:outline-none" aria-label="Bulan Selanjutnya">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Grid Hari (Sen, Sel, dll) -->
+                <div class="grid grid-cols-7 gap-1 mb-2 text-center text-sm font-semibold text-gray-500 dark:text-gray-400">
+                    <div data-i18n="day_sun">Min</div>
+                    <div data-i18n="day_mon">Sen</div>
+                    <div data-i18n="day_tue">Sel</div>
+                    <div data-i18n="day_wed">Rab</div>
+                    <div data-i18n="day_thu">Kam</div>
+                    <div data-i18n="day_fri">Jum</div>
+                    <div data-i18n="day_sat">Sab</div>
+                </div>
+
+                <!-- Wadah Tanggal Kalender (Akan diisi oleh JavaScript) -->
+                <div id="calendar-days" class="grid grid-cols-7 gap-y-2 gap-x-1 text-center">
+                    <!-- TANGGALAN MUNCUL DI SINI -->
+                </div>
+
+                <!-- Loading State (Tampil saat menarik data dari Google Sheets) -->
+                <div id="calendar-loading" class="py-10 text-gray-500 dark:text-gray-400 text-sm italic hidden">
+                    <span data-i18n="cal_loading">Memuat data ketersediaan...</span>
+                </div>
+
+                <!-- Legenda / Keterangan Warna -->
+                <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-red-500 shadow-sm border border-red-600"></span>
+                        <span class="text-gray-700 dark:text-gray-300 font-medium" data-i18n="cal_leg_a1">Astri 1 Terisi</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-yellow-400 shadow-sm border border-yellow-500"></span>
+                        <span class="text-gray-700 dark:text-gray-300 font-medium" data-i18n="cal_leg_a2">Astri 2 Terisi</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-gray-900 dark:bg-black shadow-sm border border-gray-700"></span>
+                        <span class="text-gray-700 dark:text-gray-300 font-medium" data-i18n="cal_leg_full">Kedua Rumah Penuh</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pesan Tambahan -->
+            <div class="mt-6 text-xs text-gray-500 dark:text-gray-400 space-y-1.5 text-center px-4 sm:px-0">
+                <p>
+                    <span class="font-bold text-gray-700 dark:text-gray-300" data-i18n="cal_note_title">Catatan:</span> 
+                    <span data-i18n="cal_note_1">Tanggal tanpa warna berarti seluruh unit tersedia. Jadwal dapat berubah sewaktu-waktu.</span>
+                </p>
+                <p class="text-primary dark:text-blue-400 font-medium" data-i18n="cal_note_2">
+                    Silakan tetap hubungi admin untuk memastikan ketersediaan, meskipun tanggal telah ditandai penuh.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- Lokasi Section -->
     <section id="lokasi" class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -653,6 +725,7 @@
                 "nav_facility": "Fasilitas",
                 "nav_gallery": "Galeri",
                 "nav_price": "Harga",
+                "nav_calendar": "Ketersediaan",
                 "nav_location": "Lokasi",
                 "nav_contact": "Hubungi Kami",
                 "hero_badge": "GUEST HOUSE HOMEY DI SEMARANG",
@@ -707,6 +780,16 @@
                 "price_f5": "Tersedia 1 Garasi Pribadi & Akses Jalan Lebar (Bisa parkir depan rumah)",
                 "price_btn_1": "Pesan Astri 1",
                 "price_btn_2": "Pesan Astri 2",
+                "cal_title": "Kalender Ketersediaan",
+                "cal_sub": "Cek jadwal ketersediaan unit Astri Guest House untuk merencanakan waktu menginap Anda.",
+                "day_sun": "Min", "day_mon": "Sen", "day_tue": "Sel", "day_wed": "Rab", "day_thu": "Kam", "day_fri": "Jum", "day_sat": "Sab",
+                "cal_loading": "Memuat data ketersediaan...",
+                "cal_leg_a1": "Astri 1 Terisi",
+                "cal_leg_a2": "Astri 2 Terisi",
+                "cal_leg_full": "Kedua Rumah Penuh",
+                "cal_note_title": "Catatan:",
+                "cal_note_1": "Tanggal tanpa penanda warna berarti seluruh unit tersedia. Jadwal dapat berubah sewaktu-waktu.",
+                "cal_note_2": "Silakan tetap hubungi admin untuk memastikan ketersediaan akhir, meskipun tanggal telah ditandai penuh.",
                 "loc_title": "Temukan Kami",
                 "loc_desc": "Astri Guest House terletak di area yang strategis dan mudah dijangkau dari UNNES. Lingkungan yang tenang memastikan istirahat Anda tidak terganggu, namun tetap dekat dengan fasilitas publik.",
                 "loc_addr_title": "Alamat Lengkap",
@@ -721,6 +804,7 @@
                 "foot_res_desc": "Hubungi admin kami untuk pertanyaan dan pemesanan rumah.",
                 "foot_res_btn": "Chat WhatsApp",
                 "foot_manage": "Dikelola dengan bangga oleh keluarga"
+                
             },
             "en": {
                 "theme_tooltip": "Change Theme",
@@ -729,6 +813,7 @@
                 "nav_facility": "Facilities",
                 "nav_gallery": "Gallery",
                 "nav_price": "Pricing",
+                "nav_calendar": "Availability",
                 "nav_location": "Location",
                 "nav_contact": "Contact Us",
                 "hero_badge": "HOMEY GUEST HOUSE IN SEMARANG",
@@ -783,6 +868,16 @@
                 "price_f5": "1 Private Garage & Wide Road Access (Can park in front of the house)",
                 "price_btn_1": "Book Astri 1",
                 "price_btn_2": "Book Astri 2",
+                "cal_title": "Availability Calendar",
+                "cal_sub": "Check Astri Guest House unit availability schedule to plan your stay.",
+                "day_sun": "Sun", "day_mon": "Mon", "day_tue": "Tue", "day_wed": "Wed", "day_thu": "Thu", "day_fri": "Fri", "day_sat": "Sat",
+                "cal_loading": "Loading availability data...",
+                "cal_leg_a1": "Astri 1 Booked",
+                "cal_leg_a2": "Astri 2 Booked",
+                "cal_leg_full": "Fully Booked",
+                "cal_note_title": "Note:",
+                "cal_note_1": "Dates without a colored marker indicate all units are available. Schedules are subject to change.",
+                "cal_note_2": "Please contact our admin to confirm final availability, even if a date is marked as fully booked.",
                 "loc_title": "Find Us",
                 "loc_desc": "Astri Guest House is located in a strategic area easily accessible from UNNES. The quiet neighborhood ensures your rest is undisturbed, yet still close to public facilities.",
                 "loc_addr_title": "Full Address",
@@ -841,7 +936,162 @@
         langToggleBtn.addEventListener('click', () => {
             currentLang = currentLang === 'id' ? 'en' : 'id';
             setLanguage(currentLang);
+            if (typeof renderCalendar === 'function') {
+                renderCalendar();
+            }
         });
+
+        // ==========================================
+        // SCRIPT KALENDER KETERSEDIAAN (Google Sheets)
+        // ==========================================
+        
+        // Link CSV Google Sheets kamu (JANGAN DIUBAH)
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-QPCYLYM2N0NaVLbRVSbmGlB3T0PvZKVPxs4WGJNBd8I1klKd2480bQjKigLiGED5uynpdBtxCq_2/pub?output=csv';
+
+        // Variabel untuk menyimpan data booking
+        let bookingData = {}; 
+
+        // State Kalender (Bulan & Tahun yang sedang dilihat)
+        const date = new Date();
+        let currentMonth = date.getMonth();
+        let currentYear = date.getFullYear();
+
+        // Nama-nama bulan (Dibuat array agar mudah diubah bahasa nanti)
+        const monthNamesID = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        const monthNamesEN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        const monthYearText = document.getElementById('calendar-month-year');
+        const calendarDays = document.getElementById('calendar-days');
+        const loadingIndicator = document.getElementById('calendar-loading');
+
+        // FUNGSI 1: MENGAMBIL DATA DARI GOOGLE SHEETS
+        async function fetchBookingData() {
+            try {
+                // Tampilkan loading, sembunyikan grid hari
+                loadingIndicator.classList.remove('hidden');
+                calendarDays.classList.add('hidden');
+
+                const response = await fetch(csvUrl);
+                const data = await response.text();
+                
+                // Parsing CSV (Memisahkan baris dan kolom)
+                const rows = data.split('\n').slice(1); // Potong baris pertama (header)
+                
+                rows.forEach(row => {
+                    const columns = row.split(','); // Asumsi format koma baku
+                    if (columns.length >= 2) {
+                        const dateStr = columns[0].trim(); // ex: "2026-08-25"
+                        const statusStr = columns[1].trim().toLowerCase(); // ex: "astri 1", "full"
+
+                        // Menyimpan ke objek JS dengan aturan warna
+                        if (dateStr !== "") {
+                            if (statusStr.includes("astri 1")) {
+                                bookingData[dateStr] = "red";
+                            } else if (statusStr.includes("astri 2")) {
+                                bookingData[dateStr] = "yellow";
+                            } else if (statusStr === "full") {
+                                bookingData[dateStr] = "black";
+                            }
+                            // Status selain 3 di atas akan diabaikan (dianggap kosong)
+                        }
+                    }
+                });
+
+                // Setelah data siap, gambar kalendernya
+                loadingIndicator.classList.add('hidden');
+                calendarDays.classList.remove('hidden');
+                renderCalendar();
+
+            } catch (error) {
+                console.error('Error fetching calendar data:', error);
+                loadingIndicator.innerHTML = "Gagal memuat kalender. Silakan muat ulang halaman.";
+            }
+        }
+
+        // FUNGSI 2: MENGGAMBAR KALENDER KE LAYAR
+        function renderCalendar() {
+            // Bersihkan isi kalender sebelumnya
+            calendarDays.innerHTML = '';
+
+            // Tentukan jumlah hari dalam bulan ini & hari pertama jatuh di hari apa
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay(); // 0 = Minggu, 1 = Senin, dst.
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // Jumlah hari misal 31
+
+            // Update Label Bulan & Tahun sesuai bahasa
+            const isEnglish = localStorage.getItem('language') === 'en';
+            const selectedMonthName = isEnglish ? monthNamesEN[currentMonth] : monthNamesID[currentMonth];
+            monthYearText.textContent = `${selectedMonthName} ${currentYear}`;
+
+            // Buat kotak kosong untuk hari-hari sebelum tanggal 1
+            for (let x = 0; x < firstDayIndex; x++) {
+                const emptyDiv = document.createElement('div');
+                calendarDays.appendChild(emptyDiv);
+            }
+
+            // Dapatkan tanggal hari ini untuk highlight
+            const today = new Date();
+
+            // Mulai menggambar angka tanggal (1 sampai 30/31)
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('relative', 'py-2', 'flex', 'items-center', 'justify-center', 'h-10', 'w-full', 'mx-auto', 'text-gray-700', 'dark:text-gray-200');
+
+                // Buat elemen <span> untuk angka tanggalnya
+                const dateSpan = document.createElement('span');
+                dateSpan.classList.add('relative', 'z-10', 'flex', 'items-center', 'justify-center', 'w-8', 'h-8', 'rounded-full');
+                dateSpan.textContent = i;
+
+                // Cek apakah tanggal yang sedang digambar ini adalah HARI INI
+                if (i === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    dateSpan.classList.add('font-bold', 'text-primary', 'dark:text-blue-400'); // Bold dan biru
+                    dateSpan.classList.add('ring-2', 'ring-primary/30', 'dark:ring-blue-400/30'); // Lingkaran pudar
+                }
+
+                // Cek data ketersediaan (Format kunci di Object: YYYY-MM-DD)
+                // Angka bulan (currentMonth) dimulai dari 0, jadi perlu ditambah 1
+                const monthFormat = String(currentMonth + 1).padStart(2, '0');
+                const dayFormat = String(i).padStart(2, '0');
+                const dateKey = `${currentYear}-${monthFormat}-${dayFormat}`;
+
+                // Jika tanggal ada di data Google Sheets, berikan warna
+                if (bookingData[dateKey]) {
+                    const statusColor = bookingData[dateKey];
+                    
+                    if (statusColor === 'red') {
+                        dateSpan.classList.add('bg-red-500', 'text-white', 'shadow-sm', 'border', 'border-red-600', 'font-semibold');
+                    } else if (statusColor === 'yellow') {
+                        dateSpan.classList.add('bg-yellow-400', 'text-gray-900', 'shadow-sm', 'border', 'border-yellow-500', 'font-semibold');
+                    } else if (statusColor === 'black') {
+                        dateSpan.classList.add('bg-gray-900', 'dark:bg-black', 'text-white', 'shadow-sm', 'border', 'border-gray-700', 'font-semibold');
+                    }
+                }
+
+                dayDiv.appendChild(dateSpan);
+                calendarDays.appendChild(dayDiv);
+            }
+        }
+
+        // FUNGSI 3: NAVIGASI BULAN SEBELUM/SELANJUTNYA
+        document.getElementById('prev-month').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        });
+
+        document.getElementById('next-month').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        });
+
+        // Trigger Panggilan Data saat Web Dibuka
+        fetchBookingData();
     </script>
 </body>
 </html>
